@@ -9,8 +9,9 @@ namespace TabloidCLI.UserInterfaceManagers
 
         public IUserInterfaceManager Execute()
         {
-            Console.WriteLine("Main Menu");
 
+            Console.WriteLine("Hello dear friend. How are you doing today?");
+            Console.WriteLine("Main Menu");
             Console.WriteLine(" 1) Journal Management");
             Console.WriteLine(" 2) Blog Management");
             Console.WriteLine(" 3) Author Management");
