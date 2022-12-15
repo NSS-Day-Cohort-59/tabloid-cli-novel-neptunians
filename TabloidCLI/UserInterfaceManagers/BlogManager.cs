@@ -43,7 +43,8 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
 
                 case "4":
-                    return _parentUI;
+                    Edit();
+                    return this; 
                 case "5":
                     return _parentUI;
                 case "0":
@@ -76,6 +77,60 @@ namespace TabloidCLI.UserInterfaceManagers
 
             _blogRepository.Insert(blog);
 
+        }
+
+        private Blog Choose(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "Please choose a blog:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            for (int i = 0; i < blogs.Count; i++)
+            {
+                Blog blog = blogs[i];
+                Console.WriteLine($" {i + 1}) {blog.Title}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                return blogs[choice - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+        }
+
+        private void Edit()
+        {
+            Blog blogToEdit = Choose("Which Blog would you like to edit?");
+            if (blogToEdit == null)
+            {
+                return;
+            }
+            Console.WriteLine();
+            Console.WriteLine("New Title (blank to leave unchanged): ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                blogToEdit.Title = title;
+            }
+            Console.Write("New Url (blank to leave unchanged): ");
+            string url = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                blogToEdit.Url = url;
+            }
+            _blogRepository.Update(blogToEdit);
         }
     }
 }
