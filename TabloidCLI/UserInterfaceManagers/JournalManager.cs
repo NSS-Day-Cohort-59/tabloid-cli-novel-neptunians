@@ -20,11 +20,12 @@ namespace TabloidCLI.UserInterfaceManagers
             _journalRepository = new JournalRepository(connectionString);
             _connectionString = connectionString;
         }
-
+       
         public IUserInterfaceManager Execute()
         {
             Console.WriteLine("Journal Entry Menu");
             Console.WriteLine("1) Add a journal entry.");
+            Console.WriteLine("2) List Journal Entries.");
 
             Console.Write("> ");
             string choice = Console.ReadLine();
@@ -44,12 +45,28 @@ namespace TabloidCLI.UserInterfaceManagers
                     _journalRepository.Insert(journal);
                     return this;
 
+                case "2":
+                    List();
+                    return this;
+
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;
 
+
+
+
+
             }
             
+        }
+        private void List()
+        {
+            List<Journal> journals = _journalRepository.GetAll();
+            foreach (Journal journal in journals)
+            {
+                Console.WriteLine(journal.ToString());
+            }
         }
     }
 }
