@@ -1,4 +1,4 @@
-﻿using TabloidCLI.UserInterfaceManagers;
+﻿                                                                                                                                                                                                                                                                     using TabloidCLI.UserInterfaceManagers;
 
 namespace TabloidCLI
 {
