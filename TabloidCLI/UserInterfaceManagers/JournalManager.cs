@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
-    internal class JournalManager : IUserInterfaceManager
+    public class JournalManager : IUserInterfaceManager
     {
+        private readonly IUserInterfaceManager _parentUI;
+        private JournalRepository _journalRepository;
+        private string _connectionString;
+
+        public JournalManager(IUserInterfaceManager parentUI, string connectionString)
+        {
+            _parentUI = parentUI;
+            _journalRepository = new JournalRepository(connectionString);
+            _connectionString = connectionString;
+        }
+
         public IUserInterfaceManager Execute()
         {
             Console.WriteLine("Journal Entry Menu");
@@ -18,20 +31,31 @@ namespace TabloidCLI.UserInterfaceManagers
             switch (choice)
             {
                 case "1":
+                    Journal journal = new Journal();
+
                     Console.WriteLine("Please enter a title.");
                     string title = Console.ReadLine();
+                    journal.Title = title;
+                    
                     Console.WriteLine("Please add text content.");
                     string content = Console.ReadLine();
+                    journal.Content = content;
+
+                    _journalRepository.Insert(journal);
                     return this;
+
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;
 
-
-
-
-
             }
+            
         }
     }
 }
+
+
+
+                    
+
+            
