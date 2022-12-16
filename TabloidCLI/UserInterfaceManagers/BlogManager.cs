@@ -35,18 +35,22 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
+
                 case "2":
                     return _parentUI;
+
                 case "3":
-                    Add();
-                   
+                    Add();                  
                     return this;
 
                 case "4":
                     Edit();
                     return this; 
+
                 case "5":
-                    return _parentUI;
+                    Remove();
+                    return this;
+
                 case "0":
                     return _parentUI;
                 default:
@@ -131,6 +135,15 @@ namespace TabloidCLI.UserInterfaceManagers
                 blogToEdit.Url = url;
             }
             _blogRepository.Update(blogToEdit);
+        }
+
+        private void Remove()
+        {
+            Blog blogToDelete = Choose("Which blog would you like to remove?");
+            if (blogToDelete != null)
+            {
+                _blogRepository.Delete(blogToDelete.Id);
+            }
         }
     }
 }
