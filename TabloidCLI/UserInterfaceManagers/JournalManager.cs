@@ -24,9 +24,10 @@ namespace TabloidCLI.UserInterfaceManagers
         public IUserInterfaceManager Execute()
         {
             Console.WriteLine("Journal Entry Menu");
-            Console.WriteLine("1) Add a journal entry.");
+            Console.WriteLine("1) Add A Journal Entry.");
             Console.WriteLine("2) List Journal Entries.");
-            Console.WriteLine("3) Remove Journal");
+            Console.WriteLine("3) Remove Journal Entry");
+            Console.WriteLine("4) Edit Journal Entry");
 
             Console.Write("> ");
             string choice = Console.ReadLine();
@@ -52,6 +53,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3":
                     Remove();
                     return this;
+                case "4":
+                    Edit();
+                    return this;
+
 
                 default:
                     Console.WriteLine("Invalid Selection");
@@ -102,6 +107,34 @@ namespace TabloidCLI.UserInterfaceManagers
                 return null;
             }
         }
+
+        private void Edit()
+        {
+            Journal journalToEdit = Choose("Which journal entry would you like to edit?");
+            if (journalToEdit == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("New title (blank to leave unchanged: ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                journalToEdit.Title = title;
+            }
+            Console.Write("New content (blank to leave unchanged: ");
+            string content = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                journalToEdit.Content = content;
+            }
+           
+
+            _journalRepository.Update(journalToEdit);
+        }
+
+
         private void Remove()
         {
             Journal journalToDelete = Choose("Which journal would you like to remove?");
